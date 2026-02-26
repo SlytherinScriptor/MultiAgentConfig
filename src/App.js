@@ -2,21 +2,22 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import ChatWindow from './components/ChatWindow';
 import MessageInput from './components/MessageInput';
+import axios from 'axios';
 
 function App() {
-  const [messages, setMessages] = useState(() => {
-    const storedMessages = localStorage.getItem('messages');
-    return storedMessages ? JSON.parse(storedMessages) : [];
-  });
-  const [username, setUsername] = useState(() => {
-    const storedUsername = localStorage.getItem('username');
-    return storedUsername ? storedUsername : '';
-  });
+  const [messages, setMessages] = useState([]);
+  const [username, setUsername] = useState('');
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    localStorage.setItem('messages', JSON.stringify(messages));
-  }, [messages]);
+    axios.get('/api/messages')
+      .then(response => {
+        setMessages(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
 
   const handleSendMessage = () => {
     try {
@@ -24,8 +25,15 @@ function App() {
         if (!username) {
           throw new Error('Username is required');
         }
-        setMessages([...messages, { username, message }]);
-        setMessage('');
+        const newMessage = { username, message };
+        axios.post('/api/messages', newMessage)
+          .then(response => {
+            setMessages([...messages, response.data]);
+            setMessage('');
+          })
+          .catch(error => {
+            console.error(error);
+          });
       }
     } catch (error) {
       console.error(error);
@@ -39,7 +47,6 @@ function App() {
       return;
     }
     setUsername(newUsername);
-    localStorage.setItem('username', newUsername);
   };
 
   return (
