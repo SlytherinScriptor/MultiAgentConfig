@@ -5,7 +5,10 @@ function MyApp({ Component, pageProps }) {
     return <Component {...pageProps} />;
   } catch (error) {
     console.error('Error in _app.js:', error);
-    return <div>Error occurred</div>;
+    // Log the error to a logging service or analytics platform
+    // For example, using Sentry:
+    // Sentry.captureException(error);
+    return <div>Error occurred: {error.message}</div>;
   }
 }
 
