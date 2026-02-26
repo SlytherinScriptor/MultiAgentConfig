@@ -1,12 +1,18 @@
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 function Chat() {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
+    try {
+      const response = await axios.post('https://example.com/api/chat', data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
