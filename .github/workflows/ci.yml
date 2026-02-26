@@ -16,8 +16,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "18" # Updated to Node.js 18 LTS for better compatibility with React 18
-          cache: "npm" # Re-enabled caching, actions/setup-node will determine cache-dependency-path automatically
-          # Removed 'cache-dependency-path' as 'package-lock.json' is not committed, letting the action infer it.
+          # Removed 'cache: "npm"' as 'package-lock.json' is not committed, preventing caching issues.
 
       - name: Install dependencies
         run: npm install
