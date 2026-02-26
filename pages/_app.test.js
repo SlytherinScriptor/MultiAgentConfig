@@ -27,8 +27,7 @@ describe('_app', () => {
   it('renders error message when component throws a promise rejection', async () => {
     const error = new Error('Test error');
     const Component = () => Promise.reject(error);
-    const { getByText } = render(<MyApp Component={Component} pageProps={{}} />);
-    await new Promise(resolve => setTimeout(resolve, 100));
+    const { getByText } = await render(<MyApp Component={Component} pageProps={{}} />);
     expect(getByText('Something went wrong.')).toBeInTheDocument();
     expect(Sentry.captureException).toHaveBeenCalledTimes(1);
     expect(Sentry.captureException).toHaveBeenCalledWith(error);
