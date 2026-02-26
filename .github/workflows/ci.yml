@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: ["main", "master"]
+    branches: [main, master]
   pull_request:
-    branches: ["main", "master"]
+    branches: [main, master]
 
 jobs:
   build:
@@ -15,8 +15,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18.x" # Updated to a specific LTS version for better compatibility
-          cache: "npm" # Re-enabled npm caching as package-lock.json is now committed
+          node-version: '18.13.0'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
@@ -26,3 +26,9 @@ jobs:
 
       - name: Test
         run: npm test -- --watchAll=false --passWithNoTests
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
