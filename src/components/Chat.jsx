@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -11,7 +10,7 @@ function Chat() {
       const response = await axios.post('https://example.com/api/chat', data);
       console.log(response.data);
     } catch (error) {
-      console.error(error);
+      console.error(error.response.data);
     }
   };
 
