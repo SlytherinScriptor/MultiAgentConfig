@@ -1,9 +1,13 @@
 import Head from 'next/head';
 import * as Sentry from '@sentry/nextjs';
+import { ErrorBoundary } from 'react-error-boundary';
 
 function Home() {
-  try {
-    return (
+  return (
+    <ErrorBoundary
+      FallbackComponent={() => <div>Error occurred</div>}
+      onError={(error) => Sentry.captureException(error)}
+    >
       <div>
         <Head>
           <title>WebApp</title>
@@ -13,11 +17,8 @@ function Home() {
           <h1>Welcome to WebApp</h1>
         </main>
       </div>
-    );
-  } catch (error) {
-    Sentry.captureException(error);
-    return <div>Error occurred: {error.message}</div>;
-  }
+    </ErrorBoundary>
+  );
 }
 
 export default Home;
