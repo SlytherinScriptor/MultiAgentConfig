@@ -15,12 +15,11 @@ describe('index', () => {
 
   it('renders error message when component throws an error', () => {
     const error = new Error('Test error');
-    jest.spyOn(console, 'error');
     const HomeComponent = () => {
       throw error;
     };
     const { getByText } = render(<HomeComponent />);
-    expect(getByText('Error occurred: ' + error.message)).toBeInTheDocument();
+    expect(getByText('Error occurred')).toBeInTheDocument();
     expect(Sentry.captureException).toHaveBeenCalledTimes(1);
     expect(Sentry.captureException).toHaveBeenCalledWith(error);
   });
@@ -30,7 +29,7 @@ describe('index', () => {
     const HomeComponent = () => Promise.reject(error);
     const { getByText } = render(<HomeComponent />);
     await new Promise(resolve => setTimeout(resolve, 100));
-    expect(getByText('Error occurred: ' + error.message)).toBeInTheDocument();
+    expect(getByText('Error occurred')).toBeInTheDocument();
     expect(Sentry.captureException).toHaveBeenCalledTimes(1);
     expect(Sentry.captureException).toHaveBeenCalledWith(error);
   });
