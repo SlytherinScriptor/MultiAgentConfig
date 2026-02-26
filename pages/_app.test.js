@@ -41,6 +41,28 @@ describe('_app', () => {
     const { getByText } = render(<MyApp Component={Component} pageProps={{}} />);
     expect(getByText('Something went wrong.')).toBeInTheDocument();
     expect(Sentry.captureException).toHaveBeenCalledTimes(1);
-    expect(Sentry.captureException).toHaveBeenCalledWith(new Error('Unknown error'));
+    expect(Sentry.captureException).toHaveBeenCalledWith(new Error('Unknown error: Test error'));
+  });
+
+  it('renders error message when component throws a null error', () => {
+    const error = null;
+    const Component = () => {
+      throw error;
+    };
+    const { getByText } = render(<MyApp Component={Component} pageProps={{}} />);
+    expect(getByText('Something went wrong.')).toBeInTheDocument();
+    expect(Sentry.captureException).toHaveBeenCalledTimes(1);
+    expect(Sentry.captureException).toHaveBeenCalledWith(new Error('Unknown error: null'));
+  });
+
+  it('renders error message when component throws an undefined error', () => {
+    const error = undefined;
+    const Component = () => {
+      throw error;
+    };
+    const { getByText } = render(<MyApp Component={Component} pageProps={{}} />);
+    expect(getByText('Something went wrong.')).toBeInTheDocument();
+    expect(Sentry.captureException).toHaveBeenCalledTimes(1);
+    expect(Sentry.captureException).toHaveBeenCalledWith(new Error('Unknown error: undefined'));
   });
 });
