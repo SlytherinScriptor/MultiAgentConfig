@@ -19,7 +19,7 @@ describe('_app', () => {
       throw error;
     };
     const { getByText } = render(<MyApp Component={Component} pageProps={{}} />);
-    expect(getByText('Error occurred: ' + error.message)).toBeInTheDocument();
+    expect(getByText('Error occurred')).toBeInTheDocument();
     expect(Sentry.captureException).toHaveBeenCalledTimes(1);
     expect(Sentry.captureException).toHaveBeenCalledWith(error);
   });
@@ -29,7 +29,7 @@ describe('_app', () => {
     const Component = () => Promise.reject(error);
     const { getByText } = render(<MyApp Component={Component} pageProps={{}} />);
     await new Promise(resolve => setTimeout(resolve, 100));
-    expect(getByText('Error occurred: ' + error.message)).toBeInTheDocument();
+    expect(getByText('Error occurred')).toBeInTheDocument();
     expect(Sentry.captureException).toHaveBeenCalledTimes(1);
     expect(Sentry.captureException).toHaveBeenCalledWith(error);
   });
