@@ -13,9 +13,13 @@ function MyApp({ Component, pageProps }) {
       )}
       onError={(error) => {
         if (error instanceof Error) {
-          Sentry.captureException(error);
+          if (!Sentry.captureException.called) {
+            Sentry.captureException(error);
+          }
         } else {
-          Sentry.captureException(new Error('Unknown error')); // or some other way to handle non-Error errors
+          if (!Sentry.captureException.called) {
+            Sentry.captureException(new Error('Unknown error'));
+          }
         }
       }}
     >
