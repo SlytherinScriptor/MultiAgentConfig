@@ -16,6 +16,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "18" # Updated to Node.js 18 LTS for better compatibility with React 18
+          token: ${{ secrets.GITHUB_TOKEN }} # Explicitly provide GITHUB_TOKEN to resolve 'token required' error
           # Removed 'cache: "npm"' as 'package-lock.json' is not committed, preventing caching issues.
 
       - name: Install dependencies
