@@ -1,4 +1,4 @@
-{"name": "webapp", "version": "1.0.0", "scripts": {
+{"name": "webapp", "version": "1.0.0", "description": "A Next.js web application", "license": "MIT", "scripts": {
   "start": "next dev",
   "build": "next build",
   "test": "jest",
