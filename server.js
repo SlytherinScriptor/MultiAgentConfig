@@ -1,12 +1,21 @@
 const express = require('express');
 const app = express();
 const jwt = require('jsonwebtoken');
-const secretKey = 'secretKey';
+const secretKey = process.env.SECRET_KEY;
 
 app.use(express.json());
 
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Username and password are required' });
+  }
+  if (username.length > 20 || password.length > 20) {
+    return res.status(400).json({ error: 'Username and password cannot be longer than 20 characters' });
+  }
+  if (username.trim() === '' || password.trim() === '') {
+    return res.status(400).json({ error: 'Username and password cannot be empty' });
+  }
   if (username === 'admin' && password === 'password') {
     const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' });
     res.json({ token });
