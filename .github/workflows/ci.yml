@@ -16,8 +16,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "16"
-          cache: "npm"
-          cache-dependency-path: '' # Explicitly set to empty as no package-lock.json is committed
+          # Removed cache and cache-dependency-path to fix setup failure
+          # The 'cache-dependency-path' was explicitly set to empty, which can cause issues
+          # with actions/setup-node when 'cache: npm' is enabled without a lock file.
+          # cache: "npm"
+          # cache-dependency-path: '' # Explicitly set to empty as no package-lock.json is committed
 
       - name: Install dependencies
         run: npm install
