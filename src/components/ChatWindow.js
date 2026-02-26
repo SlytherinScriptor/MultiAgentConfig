@@ -1,5 +1,6 @@
 import React from 'react';
 import './ChatWindow.css';
+
 function ChatWindow({ messages, username }) {
   return (
     <div className="chat-window">
