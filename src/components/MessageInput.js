@@ -1,5 +1,6 @@
 import React from 'react';
 import './MessageInput.css';
+
 function MessageInput({ message, setMessage, handleSendMessage }) {
   return (
     <div className="message-input">
