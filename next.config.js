@@ -15,7 +15,7 @@ const getSecret = async (secretName) => {
     return response.SecretString;
   } catch (error) {
     console.error(`Failed to retrieve secret ${secretName}: ${error.message}`);
-    throw error;
+    return null;
   }
 };
 
