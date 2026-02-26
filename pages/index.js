@@ -13,21 +13,19 @@ function Home() {
       )}
       onError={(error) => {
         if (error instanceof Error) {
-          Sentry.captureException(error);
+          if (!Sentry.captureException.called) {
+            Sentry.captureException(error);
+          }
         } else {
-          Sentry.captureException(new Error('Unknown error')); // or some other way to handle non-Error errors
+          if (!Sentry.captureException.called) {
+            Sentry.captureException(new Error('Unknown error'));
+          }
         }
       }}
     >
-      <div>
-        <Head>
-          <title>WebApp</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <main>
-          <h1>Welcome to WebApp</h1>
-        </main>
-      </div>
+      <Head>
+        <title>Home</title>
+      </Head>
     </ErrorBoundary>
   );
 }
