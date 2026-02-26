@@ -32,6 +32,7 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
 
   useEffect(() => {
+    if (!token) return;
     axios.get('/api/messages', {
       headers: {
         Authorization: `Bearer ${token}`
@@ -50,7 +51,7 @@ function App() {
     setIsSending(true);
     try {
       validateInput(username, message);
-      const newMessage = { username: DOMPurify.sanitize(username), message };
+      const newMessage = { username: DOMPurify.sanitize(username), message: DOMPurify.sanitize(message) };
       axios.post('/api/messages', newMessage, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -75,42 +76,24 @@ function App() {
     }
   };
 
-  const handleUsernameChange = (e) => {
-    const newUsername = e.target.value;
-    if (newUsername.length > 20) {
-      alert('Username cannot be longer than 20 characters');
-      return;
-    }
-    setUsername(DOMPurify.sanitize(newUsername));
-  };
-
-  const handleLogin = () => {
-    axios.post('/api/login', { username, password: 'password' })
-      .then(response => {
-        setToken(response.data.token);
-        localStorage.setItem('token', response.data.token);
-      })
-      .catch(error => {
-        setError(error.response ? error.response.data : error.message);
-      });
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
   };
 
   return (
     <div className="app">
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {token ? (
-        <>
-          <ChatWindow messages={messages} username={username} />
-          <MessageInput message={message} setMessage={setMessage} handleSendMessage={handleSendMessage} />
-          <input type="text" value={username} onChange={handleUsernameChange} placeholder="Enter your username" />
-        </>
-      ) : (
-        <>
-          <input type="text" value={username} onChange={handleUsernameChange} placeholder="Enter your username" />
-          <button onClick={handleLogin}>Login</button>
-        </>
-      )}
+      <ChatWindow messages={messages} />
+      <MessageInput
+        username={username}
+        message={message}
+        onUsernameChange={handleUsernameChange}
+        onMessageChange={(event) => setMessage(event.target.value)}
+        onSendMessage={handleSendMessage}
+        error={error}
+        isSending={isSending}
+      />
     </div>
   );
 }
+
 export default App;
