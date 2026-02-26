@@ -1,1 +1,12 @@
-{"name": "webapp", "version": "1.0.0", "scripts": {"start": "next dev"}, "dependencies": {"next": "^12.2.5", "react": "^18.2.0", "react-dom": "^18.2.0"}}
+{"name": "webapp", "version": "1.0.0", "scripts": {
+  "start": "next dev",
+  "build": "next build",
+  "test": "jest",
+  "deploy": "next build && next export"
+}, "dependencies": {
+  "next": "^12.2.5",
+  "react": "^18.2.0",
+  "react-dom": "^18.2.0"
+}, "devDependencies": {
+  "jest": "^29.0.3"
+}}
