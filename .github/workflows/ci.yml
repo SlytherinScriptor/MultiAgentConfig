@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "16"
           # Removed cache and cache-dependency-path to fix setup failure
           # The 'cache-dependency-path' was explicitly set to empty, which can cause issues
           # with actions/setup-node when 'cache: npm' is enabled without a lock file.
