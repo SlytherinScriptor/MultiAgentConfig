@@ -21,20 +21,24 @@ function App() {
 
   const handleSendMessage = () => {
     try {
-      if (message.trim() !== '') {
-        if (!username) {
-          throw new Error('Username is required');
-        }
-        const newMessage = { username, message };
-        axios.post('/api/messages', newMessage)
-          .then(response => {
-            setMessages([...messages, response.data]);
-            setMessage('');
-          })
-          .catch(error => {
-            console.error(error);
-          });
+      if (username.length > 20) {
+        throw new Error('Username cannot be longer than 20 characters');
       }
+      if (message.trim() === '') {
+        throw new Error('Message cannot be empty');
+      }
+      if (!username) {
+        throw new Error('Username is required');
+      }
+      const newMessage = { username, message };
+      axios.post('/api/messages', newMessage)
+        .then(response => {
+          setMessages([...messages, response.data]);
+          setMessage('');
+        })
+        .catch(error => {
+          console.error(error);
+        });
     } catch (error) {
       console.error(error);
     }
