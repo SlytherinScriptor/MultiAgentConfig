@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: "18" # Updated to Node.js 18 LTS for better compatibility with React 18
           cache: "npm" # Re-enabled caching, actions/setup-node will determine cache-dependency-path automatically
-          # Removed cache-dependency-path: '' as it's no longer needed with automatic detection
+          cache-dependency-path: 'package-lock.json' # Explicitly set cache-dependency-path to resolve 'Input "cache-dependency-path" cannot be empty' error
 
       - name: Install dependencies
         run: npm install
