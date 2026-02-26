@@ -23,7 +23,7 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build --if-present
+        run: npm run build
 
       - name: Test
-        run: npm test --if-present -- --watchAll=false --passWithNoTests
+        run: npm test -- --watchAll=false --passWithNoTests
