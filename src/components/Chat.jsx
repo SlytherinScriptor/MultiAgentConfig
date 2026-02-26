@@ -11,6 +11,7 @@ function Chat() {
       console.log(response.data);
     } catch (error) {
       console.error(error.response.data);
+      alert('Error sending message: ' + error.response.data);
     }
   };
 
