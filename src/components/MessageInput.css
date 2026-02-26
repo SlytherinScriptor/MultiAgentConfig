@@ -1,19 +1,17 @@
 .message-input {
   display: flex;
+  justify-content: space-between;
   padding: 10px;
-  background-color: #f0f0f0;
   border: 1px solid #ddd;
 }
 .message-input input {
   flex: 1;
   padding: 10px;
   border: none;
-  border-radius: 5px;
 }
 .message-input button {
-  padding: 10px 20px;
+  padding: 10px;
   border: none;
-  border-radius: 5px;
   background-color: #337ab7;
   color: #fff;
   cursor: pointer;
