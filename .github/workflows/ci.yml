@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18" # Updated to Node.js 18 LTS for better compatibility with React 18
+          node-version: "18.x" # Updated to a specific LTS version for better compatibility
           cache: "npm" # Re-enabled npm caching as package-lock.json is now committed
 
       - name: Install dependencies
