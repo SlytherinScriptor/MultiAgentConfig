@@ -4,11 +4,16 @@ const { SecretsManagerClient } = require('@aws-sdk/client-secretsmanager');
 // Load environment variables from .env file
 dotenv.config();
 
-const secretsManagerClient = new SecretsManagerClient({ region: 'your-region' });
+const secretsManagerClient = new SecretsManagerClient({ region: process.env.AWS_REGION });
 
 const getSecret = async (secretName) => {
-  const response = await secretsManagerClient.getSecretValue({ SecretId: secretName });
-  return response.SecretString;
+  try {
+    const response = await secretsManagerClient.getSecretValue({ SecretId: secretName });
+    return response.SecretString;
+  } catch (error) {
+    console.error(`Error getting secret ${secretName}: ${error.message}`);
+    throw error;
+  }
 };
 
 module.exports = {
