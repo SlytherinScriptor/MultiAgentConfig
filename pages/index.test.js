@@ -19,7 +19,7 @@ describe('index', () => {
       throw error;
     };
     const { getByText } = render(<HomeComponent />);
-    expect(getByText('Error occurred')).toBeInTheDocument();
+    expect(getByText('Something went wrong.')).toBeInTheDocument();
     expect(Sentry.captureException).toHaveBeenCalledTimes(1);
     expect(Sentry.captureException).toHaveBeenCalledWith(error);
   });
@@ -29,8 +29,19 @@ describe('index', () => {
     const HomeComponent = () => Promise.reject(error);
     const { getByText } = render(<HomeComponent />);
     await new Promise(resolve => setTimeout(resolve, 100));
-    expect(getByText('Error occurred')).toBeInTheDocument();
+    expect(getByText('Something went wrong.')).toBeInTheDocument();
     expect(Sentry.captureException).toHaveBeenCalledTimes(1);
     expect(Sentry.captureException).toHaveBeenCalledWith(error);
+  });
+
+  it('renders error message when component throws a non-Error error', () => {
+    const error = 'Test error';
+    const HomeComponent = () => {
+      throw error;
+    };
+    const { getByText } = render(<HomeComponent />);
+    expect(getByText('Something went wrong.')).toBeInTheDocument();
+    expect(Sentry.captureException).toHaveBeenCalledTimes(1);
+    expect(Sentry.captureException).toHaveBeenCalledWith(new Error('Unknown error'));
   });
 });
