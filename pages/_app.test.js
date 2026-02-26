@@ -19,7 +19,7 @@ describe('_app', () => {
       throw error;
     };
     const { getByText } = render(<MyApp Component={Component} pageProps={{}} />);
-    expect(getByText('Error occurred')).toBeInTheDocument();
+    expect(getByText('Something went wrong.')).toBeInTheDocument();
     expect(Sentry.captureException).toHaveBeenCalledTimes(1);
     expect(Sentry.captureException).toHaveBeenCalledWith(error);
   });
@@ -29,8 +29,19 @@ describe('_app', () => {
     const Component = () => Promise.reject(error);
     const { getByText } = render(<MyApp Component={Component} pageProps={{}} />);
     await new Promise(resolve => setTimeout(resolve, 100));
-    expect(getByText('Error occurred')).toBeInTheDocument();
+    expect(getByText('Something went wrong.')).toBeInTheDocument();
     expect(Sentry.captureException).toHaveBeenCalledTimes(1);
     expect(Sentry.captureException).toHaveBeenCalledWith(error);
+  });
+
+  it('renders error message when component throws a non-Error error', () => {
+    const error = 'Test error';
+    const Component = () => {
+      throw error;
+    };
+    const { getByText } = render(<MyApp Component={Component} pageProps={{}} />);
+    expect(getByText('Something went wrong.')).toBeInTheDocument();
+    expect(Sentry.captureException).toHaveBeenCalledTimes(1);
+    expect(Sentry.captureException).toHaveBeenCalledWith(new Error('Unknown error'));
   });
 });
