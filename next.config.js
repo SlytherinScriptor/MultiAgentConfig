@@ -14,7 +14,8 @@ const getSecret = async (secretName) => {
     const response = await secretsManagerClient.getSecretValue({ SecretId: secretName });
     return response.SecretString;
   } catch (error) {
-    throw new Error(`Failed to retrieve secret ${secretName}: ${error.message}`);
+    console.error(`Failed to retrieve secret ${secretName}: ${error.message}`);
+    throw error;
   }
 };
 
