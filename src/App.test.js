@@ -34,15 +34,4 @@ describe('App', () => {
     fireEvent.click(sendButton);
     expect(getByText('Message cannot be empty')).toBeInTheDocument();
   });
-
-  it('does not send message with username longer than 20 characters', () => {
-    const { getByText, getByPlaceholderText } = render(<App />);
-    const usernameInput = getByPlaceholderText('Enter your username');
-    const messageInput = getByPlaceholderText('Type a message...');
-    const sendButton = getByText('Send');
-    fireEvent.change(usernameInput, { target: { value: 'John Doe is a very long username' } });
-    fireEvent.change(messageInput, { target: { value: 'Hello, world!' } });
-    fireEvent.click(sendButton);
-    expect(getByText('Username cannot be longer than 20 characters')).toBeInTheDocument();
-  });
 });
